@@ -998,6 +998,21 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
 
 		/* vbp */
 		tc358768_write(priv, TC358768_DSI_VBPR, vm.vback_porch);
+<<<<<<< HEAD
+=======
+
+		/* hsw * byteclk * ndl / pclk */
+		val = (u32)div_u64(vm.hsync_len *
+				   (u64)hsbyteclk * priv->dsi_lanes,
+				   vm.pixelclock);
+		tc358768_write(priv, TC358768_DSI_HSW, val);
+
+		/* hbp * byteclk * ndl / pclk */
+		val = (u32)div_u64(vm.hback_porch *
+				   (u64)hsbyteclk * priv->dsi_lanes,
+				   vm.pixelclock);
+		tc358768_write(priv, TC358768_DSI_HBPR, val);
+>>>>>>> v6.6.2
 	} else {
 		/* Set event mode */
 		tc358768_write(priv, TC358768_DSI_EVENT, 1);
@@ -1011,6 +1026,18 @@ static void tc358768_bridge_pre_enable(struct drm_bridge *bridge)
 
 		/* vbp (not used in event mode) */
 		tc358768_write(priv, TC358768_DSI_VBPR, 0);
+<<<<<<< HEAD
+=======
+
+		/* (hsw + hbp) * byteclk * ndl / pclk */
+		val = (u32)div_u64((vm.hsync_len + vm.hback_porch) *
+				   (u64)hsbyteclk * priv->dsi_lanes,
+				   vm.pixelclock);
+		tc358768_write(priv, TC358768_DSI_HSW, val);
+
+		/* hbp (not used in event mode) */
+		tc358768_write(priv, TC358768_DSI_HBPR, 0);
+>>>>>>> v6.6.2
 	}
 
 	/* hsw (bytes) */
